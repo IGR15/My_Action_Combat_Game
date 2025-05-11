@@ -39,6 +39,11 @@ void ABossCharacter::DetectPawn(APawn* DetectedPawn, APawn* PawnToDetect)
 	);
 }
 
+float ABossCharacter::GetDamage()
+{
+	return StatsComp->Stats[EStat::Strength];
+}
+
 // Called every frame
 void ABossCharacter::Tick(float DeltaTime)
 {

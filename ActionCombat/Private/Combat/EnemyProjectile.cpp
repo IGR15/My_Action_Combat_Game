@@ -4,6 +4,7 @@
 #include "Combat/EnemyProjectile.h"
 #include "Particles/ParticleSystemComponent.h"
 #include "GameFramework/ProjectileMovementComponent.h"
+#include "Engine/DamageEvents.h"
 #include "Components/SphereComponent.h"
 
 // Sets default values
@@ -48,6 +49,13 @@ void AEnemyProjectile::HandleBeginOverlap(AActor* OtherActor)
 	{
 		SphereComp->SetCollisionEnabled(ECollisionEnabled::NoCollision);
 	}
+	FDamageEvent ProjectileDamageEvent{};
+	PawnRef->TakeDamage(
+		Damage,
+		ProjectileDamageEvent,
+		PawnRef->GetController(),
+		this
+	);
 }
 
 void AEnemyProjectile::DestroyProjectile()

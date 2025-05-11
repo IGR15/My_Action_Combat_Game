@@ -23,6 +23,8 @@ protected:
 	bool bIsInCombat{ false };
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	float CurrentDirection{ 0.0f };*/
-
+public:
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	bool bIsCharging{ false };
 	
 };

@@ -4,6 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "Components/ActorComponent.h"
+#include "Combat/FTraceSocket.h"
 #include "TraceComponent.generated.h"
 
 
@@ -14,14 +15,7 @@ class ACTIONCOMBAT_API UTraceComponent : public UActorComponent
 	USkeletalMeshComponent* SkeletalComp;
 
 	UPROPERTY(EditAnywhere)
-	FName Start;
-
-
-	UPROPERTY(EditAnywhere)
-	FName End;
-
-	UPROPERTY(EditAnywhere)
-	FName Rotation;
+	TArray<FTraceSocket> Sockets;
 
 	UPROPERTY(EditAnywhere)
 	double BoxCollisionLength{ 30.0f };

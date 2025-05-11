@@ -9,4 +9,6 @@ enum EEnemyState
 {
 	Idle UMETA(DisplayName = "idle"),
 	Range UMETA(DisplayName = "Range"),
+	Charge UMETA(DisplayName = "Charge"),
+	Melee UMETA(DisplayName = "Melee")
 };
