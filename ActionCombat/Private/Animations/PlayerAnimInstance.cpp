@@ -5,14 +5,12 @@
 
 void UPlayerAnimInstance::UpdateSpeed()
 {// Get the owning actor
-	if (APawn* Character = Cast<APawn>(TryGetPawnOwner()))
-	{
-		// Get the velocity of the character
-		FVector Velocity = Character->GetVelocity();
+	APawn* PawnRef = TryGetPawnOwner();
+	if (!IsValid(PawnRef)) { return; }
 
-		// Calculate the speed
-		CurrentSpeed = static_cast<float> (Velocity.Length());
-	}
+	FVector Velocity = PawnRef->GetVelocity();
+
+	CurrentSpeed = static_cast<float>(Velocity.Length());
 }
 
 void UPlayerAnimInstance::HandleUpdatedTarget(AActor* NewTargetActorRef)

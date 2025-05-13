@@ -19,8 +19,11 @@ class ACTIONCOMBAT_API UBTT_RangeAttack : public UBTTaskNode
 
 	double Threshold{ 0.9 };
 
-	UPROPERTY(EditAnywhere)
-	float MeleeRange{ 1250.f };
+	/*UPROPERTY(EditAnywhere)
+	float MeleeRange{ 1250.f };*/
+public:
+	UBTT_RangeAttack();
+
 
 public:
 

@@ -37,6 +37,8 @@ public:
 	UPROPERTY(BlueprintAssignable)
 	FOnAttackPerformedSignature OnAttackPerformedDelegate;
 
+	float AnimDuration;
+
 	
 
 protected:
@@ -54,5 +56,8 @@ public:
 
 	UFUNCTION(BlueprintCallable)
 	void HandleResetAttack();
+
+	UFUNCTION(BlueprintCallable)
+	void RandomAttack();
 		
 };

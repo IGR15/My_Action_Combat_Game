@@ -13,5 +13,5 @@ enum EStat
 	MaxHealth UMETA(DisplayName = "Max Health"),
 	MaxStamina UMETA(DisplayName = "Max Stamina"),
 	Strength UMETA(DisplayName = "Strength"),
-
+	MaleeRange UMETA(DisplayName = "Melee Range"),
 };

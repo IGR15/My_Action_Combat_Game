@@ -20,6 +20,9 @@ class ACTIONCOMBAT_API UBTT_MaleeAttack : public UBTTaskNode
 	UPROPERTY(EditAnywhere)
 	float AcceptableRadius{ 100.0f };
 
+	/*UPROPERTY(EditAnywhere)
+	float MaleeRange{ 1250.0f };*/
+
 
 	FScriptDelegate MoveDelegate;
 

@@ -58,6 +58,14 @@ void UCombatComponent::HandleResetAttack()
 	bCanAttack = true;
 }
 
+void UCombatComponent::RandomAttack()
+{
+	int RandomIndex{ FMath::RandRange(0, AttackAnimations.Num() - 1) };
+
+	AnimDuration = CharacterRef->PlayAnimMontage(AttackAnimations[RandomIndex]);
+
+}
+
 
 // Called every frame
 void UCombatComponent::TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction)

@@ -17,14 +17,16 @@ protected:
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	float CurrentSpeed{ 0.0f };
-	/*UFUNCTION(BlueprintCallable, Category = "Animation")
+	UFUNCTION(BlueprintCallable, Category = "Animation")
 	void UpdateSpeed();
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	/*UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	bool bIsInCombat{ false };
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	float CurrentDirection{ 0.0f };*/
 public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	bool bIsCharging{ false };
+
+
 	
 };

@@ -45,6 +45,7 @@ UBTT_ChargeAttack::UBTT_ChargeAttack()
 	
 	
 	);
+	bCreateNodeInstance = true;
 }
 
 EBTNodeResult::Type UBTT_ChargeAttack::ExecuteTask(UBehaviorTreeComponent& OwnerComp, uint8* NodeMemory)

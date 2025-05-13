@@ -24,4 +24,11 @@ class ACTIONCOMBAT_API IFighter
 public:
 
 	virtual float GetDamage() { return 0.0f; }
+
+	virtual void Attack() {};
+
+	virtual float getAnimDuration() { return 0.0f; }
+
+
+	virtual float GetMaleeRange() { return 0.0f; }
 };

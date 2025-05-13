@@ -21,12 +21,17 @@ class ACTIONCOMBAT_API ABossCharacter : public ACharacter, public IEnemy, public
 
 	class UBlackboardComponent* BlackBoardComp;
 
+	
+
 public:
 	// Sets default values for this character's properties
 	ABossCharacter();
 
 	UPROPERTY(BlueprintReadWrite, EditAnywhere)
 	class UStatsComponent* StatsComp;
+
+	UPROPERTY(EditAnywhere,BlueprintReadWrite)
+	class UCombatComponent* CombatComp;
 
 protected:
 	// Called when the game starts or when spawned
@@ -46,5 +51,14 @@ public:
 
 	UFUNCTION()
 	virtual float GetDamage() override;
+
+	UFUNCTION()
+	virtual void Attack() override;
+
+	UFUNCTION()
+	virtual float getAnimDuration() override;
+
+	UFUNCTION()
+	virtual float GetMaleeRange() override;
 
 };

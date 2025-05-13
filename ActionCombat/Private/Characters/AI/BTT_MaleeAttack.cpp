@@ -5,12 +5,22 @@
 #include "AIController.h"
 #include "BehaviorTree/BlackboardComponent.h"
 #include "Navigation/PathFollowingComponent.h"//for the moveRequest
+#include "Interfaces/Fighter.h"
+#include "GameFramework/Character.h"
+#include "Characters/EEnemyState.h"
 
 EBTNodeResult::Type UBTT_MaleeAttack::ExecuteTask(UBehaviorTreeComponent& OwnerComp, uint8* NodeMemory)
 {
+	
+
 	bIsFinished = false;
 
+	
+
 	float Distance = OwnerComp.GetBlackboardComponent()->GetValueAsFloat(TEXT("Distance"));
+	AAIController* AIControllerRef{ OwnerComp.GetAIOwner() };
+
+	
 
 	if (Distance > AttackRadius)
 	{
@@ -20,13 +30,29 @@ EBTNodeResult::Type UBTT_MaleeAttack::ExecuteTask(UBehaviorTreeComponent& OwnerC
 		MoveRequest.SetUsePathfinding(true);
 		MoveRequest.SetAcceptanceRadius(AcceptableRadius);
 
-		OwnerComp.GetAIOwner()->ReceiveMoveCompleted.AddUnique(MoveDelegate);//we put the binding above the move request to avoid the crash
+		AIControllerRef->ReceiveMoveCompleted.AddUnique(MoveDelegate);//we put the binding above the move request to avoid the crash
 
-		OwnerComp.GetAIOwner()->MoveTo(MoveRequest);
-		OwnerComp.GetAIOwner()->SetFocus(PlayerRef);
+		AIControllerRef->MoveTo(MoveRequest);
+		AIControllerRef->SetFocus(PlayerRef);
 
 		
 		
+	}
+	else
+	{
+		IFighter* FighterRef{ Cast<IFighter>(AIControllerRef->GetCharacter()) };
+
+		FighterRef->Attack();
+		 
+		FTimerHandle TimerHandle;
+		AIControllerRef->GetCharacter()->GetWorldTimerManager().SetTimer(
+			TimerHandle,
+			this,
+			&UBTT_MaleeAttack::FinishAttackTask,
+			FighterRef->getAnimDuration(),
+			false
+			
+		);
 	}
 
 	return EBTNodeResult::InProgress;
@@ -34,6 +60,27 @@ EBTNodeResult::Type UBTT_MaleeAttack::ExecuteTask(UBehaviorTreeComponent& OwnerC
 
 void UBTT_MaleeAttack::TickTask(UBehaviorTreeComponent& OwnerComp, uint8* NodeMemory, float DeltaSeconds)
 {
+	float Distance = OwnerComp.GetBlackboardComponent()->GetValueAsFloat(TEXT("Distance"));
+
+	AAIController* AIControllerRef{ OwnerComp.GetAIOwner()};
+	
+	IFighter* FighterRef{ Cast<IFighter>(AIControllerRef->GetCharacter()) };
+
+
+	if (Distance > FighterRef->GetMaleeRange()) {
+
+		OwnerComp.GetBlackboardComponent()->SetValueAsEnum(
+			TEXT("CurrentState"),
+			EEnemyState::Range
+		);
+		AbortTask(OwnerComp,NodeMemory);
+		FinishLatentTask(OwnerComp, EBTNodeResult::Aborted);
+
+		AIControllerRef->StopMovement();
+		AIControllerRef->ClearFocus(EAIFocusPriority::Gameplay);
+		AIControllerRef->ReceiveMoveCompleted.Remove(MoveDelegate);
+	}
+
 	if (!bIsFinished)
 	{
 		return;
@@ -44,6 +91,7 @@ void UBTT_MaleeAttack::TickTask(UBehaviorTreeComponent& OwnerComp, uint8* NodeMe
 
 UBTT_MaleeAttack::UBTT_MaleeAttack()
 {
+	bCreateNodeInstance = true;
 	MoveDelegate.BindUFunction(
 		this,
 		"FinishAttackTask"
