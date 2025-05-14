@@ -7,6 +7,17 @@
 #include "Characters/EStat.h"
 #include "StatsComponent.generated.h"
 
+DECLARE_DYNAMIC_MULTICAST_SPARSE_DELEGATE_OneParam(
+	FOnHealthPercentUpdateSignature,
+	UStatsComponent, OnHealthPercentUpdateDelegate,
+	float, Percentage
+);
+
+DECLARE_DYNAMIC_MULTICAST_SPARSE_DELEGATE_OneParam(
+	FOnStaminaPercentUpdateSignature,
+	UStatsComponent, OnStaminaPercentUpdateDelegate,
+	float, Percentage
+);
 
 UCLASS( ClassGroup=(Custom), meta=(BlueprintSpawnableComponent) )
 class ACTIONCOMBAT_API UStatsComponent : public UActorComponent
@@ -29,6 +40,12 @@ public:
 	UPROPERTY(EditAnywhere)
 	TMap<TEnumAsByte<EStat>, float> Stats;
 
+	UPROPERTY(BlueprintAssignable)
+	FOnHealthPercentUpdateSignature OnHealthPercentUpdateDelegate;
+
+	UPROPERTY(BlueprintAssignable)
+	FOnStaminaPercentUpdateSignature OnStaminaPercentUpdateDelegate;
+
 protected:
 	// Called when the game starts
 	virtual void BeginPlay() override;
@@ -50,6 +67,10 @@ public:
 
 	UFUNCTION(BlueprintCallable)
 	void EnableRegen();
+	
+
+	UFUNCTION(BlueprintPure)//pure function can be called from blueprints but without execution pin and only reads values so you can call it when you want 
+	float GetStatPercentage(EStat Current , EStat Max);
 	
 		
 };
