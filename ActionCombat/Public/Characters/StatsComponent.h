@@ -18,6 +18,11 @@ DECLARE_DYNAMIC_MULTICAST_SPARSE_DELEGATE_OneParam(
 	UStatsComponent, OnStaminaPercentUpdateDelegate,
 	float, Percentage
 );
+DECLARE_DYNAMIC_MULTICAST_SPARSE_DELEGATE(
+	FOnZeroHeatlhSignature,
+	UStatsComponent, OnZeroHealthDelegate
+
+);
 
 UCLASS( ClassGroup=(Custom), meta=(BlueprintSpawnableComponent) )
 class ACTIONCOMBAT_API UStatsComponent : public UActorComponent
@@ -45,6 +50,9 @@ public:
 
 	UPROPERTY(BlueprintAssignable)
 	FOnStaminaPercentUpdateSignature OnStaminaPercentUpdateDelegate;
+
+	UPROPERTY(BlueprintAssignable)
+	FOnZeroHeatlhSignature OnZeroHealthDelegate;
 
 protected:
 	// Called when the game starts
