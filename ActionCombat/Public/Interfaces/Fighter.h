@@ -31,4 +31,6 @@ public:
 
 
 	virtual float GetMaleeRange() { return 0.0f; }
+
+	virtual bool CanTakeDamage(AActor* Opponent) { return true; }
 };

@@ -12,6 +12,13 @@ UCLASS()
 class ACTIONCOMBAT_API AMainCharacter : public ACharacter, public IMainPlayer, public IFighter
 {
 	GENERATED_BODY()
+
+	UPROPERTY(EditAnywhere)
+	UAnimMontage* DeathAnimMontage;
+
+	UPROPERTY(EditAnywhere)
+	UAnimMontage* HurtAnimMontage;
+
 	
 public:
 	// Sets default values for this character's properties
@@ -53,5 +60,20 @@ public:
 	virtual float GetDamage() override;
 
 	virtual bool HasEnoughStamina(float Cost) override;
+
+
+	UFUNCTION(BlueprintCallable)
+	void HandleDeath();
+
+	UFUNCTION()
+	virtual void EndLockonWithActor(AActor* Actorref) override;
+
+	UFUNCTION()
+	virtual bool CanTakeDamage(AActor* Opponent) override;
+
+	UFUNCTION(BlueprintCallable)
+	void PlayHurtAnim(TSubclassOf<class UCameraShakeBase> CameraShakeTemplate);
+	//this allows to store blutprints as a variable since the camara shake template is a bluprint
+	
 	
 };

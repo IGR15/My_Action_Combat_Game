@@ -20,6 +20,10 @@ class ACTIONCOMBAT_API ABossCharacter : public ACharacter, public IEnemy, public
 	TEnumAsByte<EEnemyState> InitialState;
 
 	class UBlackboardComponent* BlackBoardComp;
+	UPROPERTY(EditAnywhere)
+	UAnimMontage* DeathAnim;
+
+	class AAIController* ControllerRef;
 
 	
 
@@ -60,5 +64,14 @@ public:
 
 	UFUNCTION()
 	virtual float GetMaleeRange() override;
+
+	UFUNCTION()
+	void HandlePlayerDeath();
+
+	UFUNCTION(BlueprintCallable)
+	void HandleDeath();
+
+	UFUNCTION()
+	void FinsihDeathAnim();
 
 };

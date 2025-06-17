@@ -23,6 +23,9 @@ class ACTIONCOMBAT_API UTraceComponent : public UActorComponent
 	UPROPERTY(EditAnywhere)
 	bool bDebugMode{ false };	
 
+	UPROPERTY(EditAnywhere)
+	UParticleSystem* HitParticleTemplate;
+
 
 	TArray<AActor*> TargetsToIgnor;
 
