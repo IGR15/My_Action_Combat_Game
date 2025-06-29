@@ -49,6 +49,7 @@ void UCombatComponent::ComboAttack()
 		-1,
 		maxCombos - 1
 		
+		
 	);
 	OnAttackPerformedDelegate.Broadcast(StamaninaCost); // Notify that an attack has been performed
 }
