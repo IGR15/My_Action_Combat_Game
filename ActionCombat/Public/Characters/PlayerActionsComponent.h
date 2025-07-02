@@ -42,6 +42,10 @@ class ACTIONCOMBAT_API UPlayerActionsComponent : public UActorComponent
 
 	UPROPERTY(EditAnywhere)
 	float RollCost{ 5.0f };
+	
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, meta = (AllowPrivateAccess = "true"), Category = "Movement")
+	bool bIsSprinting{ false };
+
 
 	
 
@@ -76,5 +80,11 @@ public:
 
 	UFUNCTION()
 	void FinishRollAnim();
+
+	
+	UFUNCTION(BlueprintCallable, Category = "Movement")
+	bool IsSprinting();
+	
+
 		
 };

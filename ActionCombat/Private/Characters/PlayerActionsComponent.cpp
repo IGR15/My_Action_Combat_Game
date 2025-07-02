@@ -52,6 +52,8 @@ void UPlayerActionsComponent::Sprint()
 	}
 	if (MovementComp->Velocity.Equals(FVector::ZeroVector,1)) { return; }
 	MovementComp->MaxWalkSpeed = SprintSpeed;
+	bIsSprinting = true;
+	UE_LOG(LogTemp, Display, TEXT("bIsSprinting = %s"), bIsSprinting ? TEXT("True") : TEXT("False"));
 	OnSprintDelegate.Broadcast(SprintCost);
 }
 
@@ -59,6 +61,8 @@ void UPlayerActionsComponent::Walk()
 {
 	MovementComp->MaxWalkSpeed = WalkSpeed;
 	
+	bIsSprinting = false;
+	UE_LOG(LogTemp, Display, TEXT("bIsSprinting = %s"), bIsSprinting ? TEXT("True") : TEXT("False"));
 }
 
 void UPlayerActionsComponent::Roll()
@@ -98,5 +102,10 @@ void UPlayerActionsComponent::FinishRollAnim()
 {
 	bIsRollActive = false;
 	
+}
+
+bool UPlayerActionsComponent::IsSprinting()
+{
+	return false;
 }
 
