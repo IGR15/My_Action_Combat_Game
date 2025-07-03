@@ -1,6 +1,4 @@
-// Fill out your copyright notice in the Description page of Project Settings.
-
-
+// TeleportComponent.cpp
 #include "Characters/TeleportComponent.h"
 #include "GameFramework/Actor.h"
 #include "GameFramework/CharacterMovementComponent.h"
@@ -10,6 +8,7 @@
 UTeleportComponent::UTeleportComponent()
 {
 	PrimaryComponentTick.bCanEverTick = true;
+	SetComponentTickEnabled(false); // disable tick by default
 }
 
 void UTeleportComponent::BeginPlay()
@@ -21,12 +20,13 @@ void UTeleportComponent::BeginPlay()
 	{
 		TeleportAura->SetVisibility(false);
 	}
-
 }
 
 void UTeleportComponent::StartTeleportAim()
 {
 	bIsAiming = true;
+	SetComponentTickEnabled(true); // enable ticking when aiming
+
 	if (TeleportAura)
 	{
 		TeleportAura->SetVisibility(true);
@@ -43,6 +43,8 @@ void UTeleportComponent::CancelTeleport()
 {
 	bIsAiming = false;
 	bCanTeleport = false;
+	SetComponentTickEnabled(false);
+
 	if (TeleportAura)
 	{
 		TeleportAura->SetVisibility(false);
@@ -53,8 +55,11 @@ void UTeleportComponent::CompleteTeleport()
 {
 	if (!bIsAiming || !bCanTeleport || !OwnerCharacter) return;
 	bIsAiming = false;
+	SetComponentTickEnabled(false);
+
 	TeleportAura->SetVisibility(false);
 	StartLocation = OwnerCharacter->GetActorLocation();
+	ExecuteTeleport();
 }
 
 void UTeleportComponent::PerformAimTrace()
@@ -93,6 +98,9 @@ void UTeleportComponent::PerformGroundCheck(const FVector& AimPoint)
 		TeleportTargetLocation = GroundHit.ImpactPoint;
 		UpdateAura(TeleportTargetLocation, true);
 		bCanTeleport = true;
+
+		// Debug sphere visualization
+		DrawDebugSphere(GetWorld(), TeleportTargetLocation, 25.0f, 12, FColor::Cyan, false, 0.1f);
 	}
 	else
 	{
@@ -123,13 +131,12 @@ void UTeleportComponent::TimelineUpdate(float Value)
 	OwnerCharacter->SetActorLocation(NewLocation);
 }
 
-
-
-// Called every frame
 void UTeleportComponent::TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction)
 {
 	Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
 
-	// ...
+	if (bIsAiming)
+	{
+		UpdateTeleportAim(DeltaTime);
+	}
 }
-

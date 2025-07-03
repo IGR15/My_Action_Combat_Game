@@ -8,6 +8,7 @@
 #include "Combat/CombatComponent.h"
 #include "Combat/BlockComponent.h"
 #include "Combat/TraceComponent.h"
+#include "Characters/TeleportComponent.h"
 #include "Combat/LockonComponent.h"
 #include "Characters/PlayerActionsComponent.h"
 
@@ -23,7 +24,7 @@ AMainCharacter::AMainCharacter()
 	TraceComp = CreateDefaultSubobject<UTraceComponent>(TEXT("Trace Component"));
 	CombatComp = CreateDefaultSubobject<UCombatComponent>(TEXT("Combat Component"));
 	PlayerActionComp = CreateDefaultSubobject<UPlayerActionsComponent>(TEXT("Player Action Component"));
-
+	TeleportComp = CreateDefaultSubobject<UTeleportComponent>(TEXT("Teleport Component"));
 }
 
 // Called when the game starts or when spawned

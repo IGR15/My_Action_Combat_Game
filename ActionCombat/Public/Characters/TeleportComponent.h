@@ -40,12 +40,21 @@ private:
 	UPROPERTY(EditAnywhere)
 	UCurveFloat* TeleportCurve;
 
+	// Debug config
+	UPROPERTY(EditAnywhere, Category = "Debug")
+	float TeleportRadius = 25.0f;
+
+	UPROPERTY(EditAnywhere, Category = "Debug")
+	FColor TeleportColor = FColor::Cyan;
+
+	UPROPERTY(EditAnywhere, Category = "Debug")
+	float DebugDuration = 0.1f;
+
 	// Internal state
 	FVector TeleportTargetLocation;
 	FVector StartLocation;
 	bool bIsAiming = false;
 	bool bCanTeleport = false;
-	
 
 	// Cached Owner Character
 	ACharacter* OwnerCharacter;

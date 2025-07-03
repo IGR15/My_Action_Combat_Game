@@ -42,6 +42,9 @@ public:
 	UPROPERTY(BlueprintReadWrite, EditAnywhere)
 	class UPlayerActionsComponent* PlayerActionComp;
 
+	UPROPERTY(BlueprintReadWrite, EditAnywhere)
+	class UTeleportComponent* TeleportComp;
+
 
 protected:
 	// Called when the game starts or when spawned
