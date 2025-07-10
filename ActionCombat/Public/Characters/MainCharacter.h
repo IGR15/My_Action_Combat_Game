@@ -6,10 +6,11 @@
 #include "GameFramework/Character.h"
 #include "Interfaces/MainPlayer.h"
 #include "Interfaces/Fighter.h"
+#include "AbilitySystemInterface.h"
 #include "MainCharacter.generated.h"
 
-UCLASS()
-class ACTIONCOMBAT_API AMainCharacter : public ACharacter, public IMainPlayer, public IFighter
+UCLASS(config = Game)
+class ACTIONCOMBAT_API AMainCharacter : public ACharacter, public IMainPlayer, public IFighter, public IAbilitySystemInterface
 {
 	GENERATED_BODY()
 
@@ -19,10 +20,20 @@ class ACTIONCOMBAT_API AMainCharacter : public ACharacter, public IMainPlayer, p
 	UPROPERTY(EditAnywhere)
 	UAnimMontage* HurtAnimMontage;
 
+
+	virtual UAbilitySystemComponent* GetAbilitySystemComponent() const override;
+
+
 	
 public:
 	// Sets default values for this character's properties
 	AMainCharacter();
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Abilities)
+	TObjectPtr<class UMyAbilitySystemComponent> AbilitySystemComp;
+
+	UPROPERTY()
+	TObjectPtr<class UMyCharacterAttributeSet> AttributeSet;
 
 	UPROPERTY(BlueprintReadWrite, EditAnywhere)
 	class UStatsComponent* StatsComp;
@@ -77,6 +88,8 @@ public:
 	UFUNCTION(BlueprintCallable)
 	void PlayHurtAnim(TSubclassOf<class UCameraShakeBase> CameraShakeTemplate);
 	//this allows to store blutprints as a variable since the camara shake template is a bluprint
+
+	
 	
 	
 };

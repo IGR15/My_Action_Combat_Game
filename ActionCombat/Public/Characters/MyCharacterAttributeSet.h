@@ -10,41 +10,57 @@
 /**
  * 
  */
-#define ATTRIBUTE_ACCESSORS(ClassName, PropertyName) \
-GAMEPLAYATTRIBUTE_PROPERTY_GETTER(ClassName, PropertyName) \
-GAMEPLAYATTRIBUTE_VALUE_GETTER(PropertyName) \
-GAMEPLAYATTRIBUTE_VALUE_SETTER(PropertyName) \
-GAMEPLAYATTRIBUTE_VALUE_INITTER(PropertyName)
+#define ATTRIBUTE_ACCESSORS_BASIC(ClassName, PropertyName) \
+	GAMEPLAYATTRIBUTE_PROPERTY_GETTER(ClassName, PropertyName) \
+	GAMEPLAYATTRIBUTE_VALUE_GETTER(PropertyName) \
+	GAMEPLAYATTRIBUTE_VALUE_SETTER(PropertyName) \
+	GAMEPLAYATTRIBUTE_VALUE_INITTER(PropertyName)
+
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_ThreeParams(FAttributeChangedEvent, UAttributeSet*, AttributeSet, float, OldValue, float, NewValue);
 
 UCLASS()
 class ACTIONCOMBAT_API UMyCharacterAttributeSet : public UAttributeSet
 {
 	GENERATED_BODY()
 
-public:
+
 	
-	UPROPERTY(BlueprintReadOnly, Category = "Attributes")
+
+
+public:
+	UMyCharacterAttributeSet();
+	
+	UPROPERTY(VisibleAnywhere,BlueprintReadOnly, Category = "Attributes")
 	FGameplayAttributeData Health;
-	ATTRIBUTE_ACCESSORS(UMyCharacterAttributeSet, Health)
+	
 
-	UPROPERTY(BlueprintReadOnly, Category = "Attributes")
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Attributes")
 	FGameplayAttributeData MaxHealth;
-	ATTRIBUTE_ACCESSORS(UMyCharacterAttributeSet, MaxHealth)
 
-	UPROPERTY(BlueprintReadOnly, Category = "Attributes")
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Attributes")
 	FGameplayAttributeData Stamina;
-	ATTRIBUTE_ACCESSORS(UMyCharacterAttributeSet, Stamina)
 
-	UPROPERTY(BlueprintReadOnly, Category = "Attributes")
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Attributes")
 	FGameplayAttributeData MaxStamina;
-	ATTRIBUTE_ACCESSORS(UMyCharacterAttributeSet, MaxStamina)
 
-	UPROPERTY(BlueprintReadOnly, Category = "Attributes")
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Attributes")
 	FGameplayAttributeData Mana;
-	ATTRIBUTE_ACCESSORS(UMyCharacterAttributeSet, Mana)
 
-	UPROPERTY(BlueprintReadOnly, Category = "Attributes")
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Attributes")
 	FGameplayAttributeData MaxMana;
-	ATTRIBUTE_ACCESSORS(UMyCharacterAttributeSet, MaxMana)
+
+	virtual void PreAttributeChange(const FGameplayAttribute& Attribute, float& NewValue) override;
+	virtual void PostAttributeChange(const FGameplayAttribute& Attribute, float OldValue, float NewValue) override;
+
+
+	ATTRIBUTE_ACCESSORS_BASIC(UMyCharacterAttributeSet, MaxMana)
+	ATTRIBUTE_ACCESSORS_BASIC(UMyCharacterAttributeSet, Mana)
+	ATTRIBUTE_ACCESSORS_BASIC(UMyCharacterAttributeSet, MaxStamina)
+	ATTRIBUTE_ACCESSORS_BASIC(UMyCharacterAttributeSet, Stamina)
+	ATTRIBUTE_ACCESSORS_BASIC(UMyCharacterAttributeSet, MaxHealth)
+	ATTRIBUTE_ACCESSORS_BASIC(UMyCharacterAttributeSet, Health)
+
+	UPROPERTY(BlueprintAssignable)
+	FAttributeChangedEvent OnHealthChanged;
 	
 };

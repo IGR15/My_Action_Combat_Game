@@ -10,7 +10,14 @@
 #include "Combat/TraceComponent.h"
 #include "Characters/TeleportComponent.h"
 #include "Combat/LockonComponent.h"
+#include "Characters/MyAbilitySystemComponent.h"
+#include "Characters/MyCharacterAttributeSet.h"
 #include "Characters/PlayerActionsComponent.h"
+
+UAbilitySystemComponent* AMainCharacter::GetAbilitySystemComponent() const
+{
+	return AbilitySystemComp;
+}
 
 // Sets default values
 AMainCharacter::AMainCharacter()
@@ -25,12 +32,15 @@ AMainCharacter::AMainCharacter()
 	CombatComp = CreateDefaultSubobject<UCombatComponent>(TEXT("Combat Component"));
 	PlayerActionComp = CreateDefaultSubobject<UPlayerActionsComponent>(TEXT("Player Action Component"));
 	TeleportComp = CreateDefaultSubobject<UTeleportComponent>(TEXT("Teleport Component"));
+	AbilitySystemComp = CreateDefaultSubobject<UMyAbilitySystemComponent>(TEXT("Ability System Component"));
+	AttributeSet = CreateDefaultSubobject<UMyCharacterAttributeSet>(TEXT("Attribute Set"));
 }
 
 // Called when the game starts or when spawned
 void AMainCharacter::BeginPlay()
 {
 	Super::BeginPlay();
+	AbilitySystemComp->InitAbilityActorInfo(this, this);
 
 	PlayerAnim = Cast<UPlayerAnimInstance>(GetMesh()->GetAnimInstance());
 	
@@ -97,4 +107,6 @@ void AMainCharacter::PlayHurtAnim(TSubclassOf<class UCameraShakeBase> CameraShak
 		GetController<APlayerController>()->ClientStartCameraShake(CameraShakeTemplate);
 	}
 }
+
+
 
